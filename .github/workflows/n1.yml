@@ -1,0 +1,16 @@
+name: Basic Push Workflow  # Имя, чтобы было понятно
+
+on:  # Когда запускать?
+  push:  # При каждом пуше в репозиторий
+    branches: [ main ]  # Только в ветку main (главную), можешь убрать, если хочешь для всех
+
+jobs:  # Что делать? (Работы, или джобы)
+  hello-world:  # Одна работа, называется "hello-world"
+    runs-on: ubuntu-latest  # На какой машине? Ubuntu (бесплатная виртуальная машина от GitHub)
+
+    steps:  # Шаги внутри работы
+      - name: Checkout code  # Шаг 1: Скачать код из репозитория
+        uses: actions/checkout@v4  # Это готовый инструмент, который скачивает файлы
+
+      - name: Print message  # Шаг 2: Напечатать сообщение
+        run: echo "Hello from GitHub Actions! Push detected."  # Команда: вывести текст в консоль
