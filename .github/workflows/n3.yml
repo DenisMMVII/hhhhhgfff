@@ -1,0 +1,32 @@
+name: Sequential Jobs Workflow  # Имя
+
+on:  # Когда? При пуше в main
+  push:
+    branches: [ main ]
+
+jobs:  # Три работы по очереди
+  build:  # Первая: "сборка"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build step
+        run:  echo "Building the project..."  # Пишет "Собираю проект..."
+
+  test:  # Вторая: "тесты" — запускается ТОЛЬКО после build
+   needs: build  # Зависит от build — ждёт, пока build закончится успешно 
+   runs-on: ubuntu-latest
+   steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Test step
+        run: echo "Running tests..."  # Пишет "Запускаю тесты..."
+
+  deploy:  # Третья: "деплой" — после test
+   needs: test  # Зависит от test 
+   runs-on: ubuntu-latest 
+   steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Deploy step
+        run: echo "Deploying to production..."  # Пишет "Разворачиваю в продакшн..."
